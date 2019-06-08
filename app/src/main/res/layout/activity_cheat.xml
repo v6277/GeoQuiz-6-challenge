@@ -30,6 +30,9 @@
         android:id="@+id/api_level_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="24dp" />
+        android:padding="24dp"
+        android:fontFamily="cursive"
+        android:textColor="@color/colorAccent"
+        android:textSize="24dp"/>
 
 </LinearLayout>

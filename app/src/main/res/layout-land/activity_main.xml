@@ -37,6 +37,13 @@
         android:layout_gravity="bottom|center_horizontal"
         android:text="@string/cheat_button"/>
 
+    <TextView
+        android:id="@+id/cheat_counter_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"/>
+
+
     <Button
         android:id="@+id/next_button"
         android:layout_width="wrap_content"

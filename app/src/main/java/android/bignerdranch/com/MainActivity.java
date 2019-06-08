@@ -15,13 +15,16 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private static final String KEY_INDEX = "index";
+    private static final String KEY_CHEAT_COUNTER = "cheat counter";
     private static final int REQUEST_CODE_CHEAT = 0;
 
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
     private Button mCheatButton;
+
     private TextView mQuestionTextView;
+    private TextView mCheatCounterTextView;
     private boolean mIsCheater;
 
     private Question[] mQuestionBank = new Question[] {
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private int mCurrentIndex = 0;
+    private int mCheatCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+            mCheatCounter = savedInstanceState.getInt(KEY_CHEAT_COUNTER, 0);
         }
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
@@ -83,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mCheatCounterTextView = (TextView) findViewById(R.id.cheat_counter_text_view);
+
+        updateCheatCounter();
         updateQuestion();
     }
 
@@ -109,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "inSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+        savedInstanceState.putInt(KEY_CHEAT_COUNTER, mCheatCounter);
     }
 
     @Override
@@ -154,10 +163,22 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (requestCode == REQUEST_CODE_CHEAT) {
+            mCheatCounter += 1;
+            updateCheatCounter();
+
             if(data == null) {
                 return;
             }
             mIsCheater = CheatActivity.wasAnswerShown(data);
+        }
+    }
+
+    private void updateCheatCounter() {
+        mCheatCounterTextView.setText(getResources().getString(R.string.cheats_remaining,
+                (3-mCheatCounter)));
+
+        if (mCheatCounter == 3) {
+            mCheatButton.setVisibility(View.INVISIBLE);
         }
     }
 }
